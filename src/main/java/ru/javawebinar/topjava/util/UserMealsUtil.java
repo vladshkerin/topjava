@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMealWithExcess;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +22,8 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
         );
 
-        List<UserMealWithExcess> mealsTo = filteredByCycles(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+//        List<UserMealWithExcess> mealsTo = filteredByCycles(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        List<UserMealWithExcess> mealsTo = getFilteredWithExceeded(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsTo.forEach(System.out::println);
 
 //        System.out.println(filteredByStreams(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
@@ -35,5 +37,26 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByStreams(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO Implement by streams
         return null;
+    }
+
+    public static List<UserMealWithExcess> getFilteredWithExceeded(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        // TODO return filtered list with correctly exceeded field
+        List<UserMeal> filterMeal = new ArrayList<>(meals.size());
+        int exceed = 0;
+        for (UserMeal meal : meals) {
+            if (TimeUtil.isBetweenInclusive(meal.getDateTime().toLocalTime(), startTime, endTime)) {
+                filterMeal.add(meal);
+                exceed += meal.getCalories();
+            }
+        }
+
+        List<UserMealWithExcess> mealWithExceeds = new ArrayList<>(filterMeal.size());
+        boolean isExceed = exceed > caloriesPerDay;
+        for (UserMeal meal : filterMeal) {
+            mealWithExceeds.add(new UserMealWithExcess(
+                    meal.getDateTime(), meal.getDescription(), meal.getCalories(), isExceed));
+        }
+
+        return mealWithExceeds;
     }
 }
