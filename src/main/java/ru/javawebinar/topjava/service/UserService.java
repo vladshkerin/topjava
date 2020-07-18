@@ -27,6 +27,10 @@ public class UserService {
         checkNotFoundWithId(repository.delete(id), id);
     }
 
+    public void update(User user) {
+        checkNotFoundWithId(repository.save(user), user.getId());
+    }
+
     public User get(int id) {
         return checkNotFoundWithId(repository.get(id), id);
     }
@@ -37,9 +41,5 @@ public class UserService {
 
     public List<User> getAll() {
         return repository.getAll();
-    }
-
-    public void update(User user) {
-        checkNotFoundWithId(repository.save(user), user.getId());
     }
 }

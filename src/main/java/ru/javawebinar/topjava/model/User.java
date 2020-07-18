@@ -12,7 +12,7 @@ public class User extends AbstractNamedEntity {
 
     private String password;
 
-    private boolean enabled = true;
+    private boolean enabled;
 
     private Date registered = new Date();
 
@@ -20,8 +20,8 @@ public class User extends AbstractNamedEntity {
 
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
+    public User(String name, String email, String password, boolean enabled, Role role, Role... roles) {
+        this(null, name, email, password, DEFAULT_CALORIES_PER_DAY, enabled, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, int caloriesPerDay, boolean enabled, Set<Role> roles) {
