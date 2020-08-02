@@ -4,9 +4,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
@@ -14,7 +12,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.Collection;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -22,36 +19,6 @@ import static ru.javawebinar.topjava.util.Util.isBetweenHalfOpen;
 
 public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
-
-    public static final List<Meal> MEALS = Arrays.asList(
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-    );
-
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        final LocalTime startTime = LocalTime.of(7, 0);
-        final LocalTime endTime = LocalTime.of(12, 0);
-
-        List<MealTo> mealsTo = getFilteredTos(MEALS, 2000, startTime, endTime);
-        mealsTo.forEach(System.out::println);
-
-        System.out.println(filteredByCycles(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByRecursion(MEALS, startTime, endTime, 2000));
-//        System.out.println(filteredByAtomic(MEALS, startTime, endTime, 2000));
-//        System.out.println(filteredByReflection(MEALS, startTime, endTime, 2000));
-//        System.out.println(filteredByClosure(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByExecutor(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByLock(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByCountDownLatch(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByPredicate(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByFlatMap(MEALS, startTime, endTime, 2000));
-        System.out.println(filteredByCollector(MEALS, startTime, endTime, 2000));
-    }
 
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return filterByPredicate(meals, caloriesPerDay, meal -> true);
