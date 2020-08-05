@@ -16,7 +16,11 @@ public class TestMatcher<T> {
     }
 
     public void assertMatch(T actual, T expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, fieldsToIgnore);
+        if (fieldsToIgnore != null && fieldsToIgnore.length > 0) {
+            assertThat(actual).isEqualToIgnoringGivenFields(expected, fieldsToIgnore);
+        } else {
+            assertThat(actual).isEqualTo(expected);
+        }
     }
 
     public void assertMatch(Iterable<T> actual, T... expected) {
@@ -24,6 +28,10 @@ public class TestMatcher<T> {
     }
 
     public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(expected);
+        if (fieldsToIgnore != null && fieldsToIgnore.length > 0) {
+            assertThat(actual).usingElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(expected);
+        } else {
+            assertThat(actual).isEqualTo(expected);
+        }
     }
 }
