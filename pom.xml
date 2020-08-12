@@ -30,7 +30,7 @@
 
         <!-- DB -->
         <postgresql.version>42.2.14</postgresql.version>
-        <hsqldb.version>2.3.4</hsqldb.version>
+        <hsqldb.version>2.5.1</hsqldb.version>
 
         <!-- Tests -->
         <junit.version>4.13</junit.version>
