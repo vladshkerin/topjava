@@ -33,22 +33,6 @@ public class MealServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        Meal meal = new Meal(
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
-
-        if (StringUtils.isEmpty(request.getParameter("id"))) {
-            mealController.create(meal);
-        } else {
-            mealController.update(meal, getId(request));
-        }
-        response.sendRedirect("meals");
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
@@ -79,6 +63,22 @@ public class MealServlet extends HttpServlet {
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
             }
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        Meal meal = new Meal(
+                LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"),
+                Integer.parseInt(request.getParameter("calories")));
+
+        if (StringUtils.isEmpty(request.getParameter("id"))) {
+            mealController.create(meal);
+        } else {
+            mealController.update(meal, getId(request));
+        }
+        response.sendRedirect("meals");
     }
 
     private int getId(HttpServletRequest request) {
